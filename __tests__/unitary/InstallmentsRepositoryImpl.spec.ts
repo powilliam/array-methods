@@ -1,8 +1,11 @@
 import { InstallmentsStatusReport } from "../../src/dto/InstallmentsStatusReport";
 import { InstallmentsRepositoryImpl } from "../../src/repositories/implementations/InstallmentsRepositoryImpl";
+import { GenerateInstallmentsStatusReportUseCaseImpl } from "../../src/usecases/implementations/GenerateInstallmentsStatusReportUseCaseImpl";
 
 describe("Exercices with Installments Entity", () => {
-  const repository = new InstallmentsRepositoryImpl();
+  const repository = new InstallmentsRepositoryImpl(
+    new GenerateInstallmentsStatusReportUseCaseImpl()
+  );
 
   it("should be able to return the installments total price", () => {
     expect(repository.getInstallmentsTotalPrice()).toBeCloseTo(703.08);
