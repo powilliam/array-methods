@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "students": "ts-node src/students.ts",
+    "collaborators": "ts-node src/collaborators.ts",
     "test": "jest"
   },
   "devDependencies": {
