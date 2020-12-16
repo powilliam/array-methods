@@ -1,5 +1,6 @@
 import { CountByOccupation } from "../../dto/CountByOccupation";
 import { Collaborator, Occupation } from "../../entities/Collaborator";
+import { GenerateCollaboratorsCountByOccupationReportUseCase } from "../../usecases/interfaces/GenerateCollaboratorsCountByOccupationReportUseCase";
 import { sortCollaboratorsByOccupation } from "../../utils/sortCollaboratorsByOccupation";
 import { sortCollaboratorsWithOccupationAsTiebrakerCriteria } from "../../utils/sortCollaboratorsWithOccupationAsTiebrakerCriteria";
 import { CollaboratorsRepository } from "../interfaces/CollaboratorsRepository";
@@ -14,6 +15,10 @@ export class CollaboratorsRepositoryImpl implements CollaboratorsRepository {
     { name: "Jéssica", age: 23, occupation: Occupation.FRONT_END },
   ];
 
+  constructor(
+    private readonly generateCollaboratorsCountByOccupationReportUseCase: GenerateCollaboratorsCountByOccupationReportUseCase
+  ) {}
+
   public getCollaboratorsAgeSum(): number {
     return this.collaborators
       .map((collaborator) => collaborator.age)
@@ -21,16 +26,9 @@ export class CollaboratorsRepositoryImpl implements CollaboratorsRepository {
   }
 
   public getCollaboratorsCountByOccupation(): CountByOccupation {
-    return this.collaborators
-      .map((collaborator) => collaborator.occupation)
-      .reduce((countByOccupation, currentOcupation) => {
-        if (currentOcupation in countByOccupation) {
-          countByOccupation[currentOcupation]++;
-        } else {
-          countByOccupation[currentOcupation] = 1;
-        }
-        return countByOccupation;
-      }, new CountByOccupation());
+    return this.generateCollaboratorsCountByOccupationReportUseCase.execute(
+      this.collaborators
+    );
   }
 
   public getCollaboratorsOrderedByAgeInAscending(): Collaborator[] {

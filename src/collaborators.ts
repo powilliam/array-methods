@@ -1,6 +1,9 @@
 import { CollaboratorsRepositoryImpl } from "./repositories/implementations/CollaboratorsRepositoryImpl";
+import { GenerateCollaboratorsCountByOccupationReportUseCaseImpl } from "./usecases/implementations/GenerateCollaboratorsCountByOccupationReportUseCaseImpl";
 
-const repository = new CollaboratorsRepositoryImpl();
+const repository = new CollaboratorsRepositoryImpl(
+  new GenerateCollaboratorsCountByOccupationReportUseCaseImpl()
+);
 
 console.log(
   `Collaborators age sum: ${JSON.stringify(
