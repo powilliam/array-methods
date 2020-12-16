@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Solution implementations for <a href="https://github.com/naveteam">@naveteam</a> basic-guides</h2>
+    <h1>Solution implementations of <a href="https://github.com/naveteam">@naveteam</a> basic-guides</h2>
 </div>
 
 ## Cloning and installing
