@@ -8,6 +8,7 @@
   "scripts": {
     "students": "ts-node src/students.ts",
     "collaborators": "ts-node src/collaborators.ts",
+    "installments": "ts-node src/installments.ts",
     "test": "jest"
   },
   "devDependencies": {
