@@ -40,12 +40,14 @@ export class CollaboratorsRepositoryImpl implements CollaboratorsRepository {
   }
 
   public getCollaboratorsOrderedByOccupation(): Collaborator[] {
-    return this.collaborators.sort(sortCollaboratorsByOccupation);
+    return this.collaborators.sort((a, b) =>
+      sortCollaboratorsByOccupation(a, b)
+    );
   }
 
   public getCollaboratorsOrderedByAgeWithOccupationAsTiebrakerCriteria(): Collaborator[] {
-    return this.collaborators.sort(
-      sortCollaboratorsWithOccupationAsTiebrakerCriteria
+    return this.collaborators.sort((a, b) =>
+      sortCollaboratorsWithOccupationAsTiebrakerCriteria(a, b)
     );
   }
 }
