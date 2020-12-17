@@ -1,8 +1,12 @@
+import { InstallmentsDataSourceImpl } from "./datasources/implementations/InstallmentsDataSource";
 import { InstallmentsRepositoryImpl } from "./repositories/implementations/InstallmentsRepositoryImpl";
 import { GenerateInstallmentsStatusReportUseCaseImpl } from "./usecases/implementations/GenerateInstallmentsStatusReportUseCaseImpl";
 
+const dataSource = new InstallmentsDataSourceImpl();
+const generateInstallmentStatusReportUseCase = new GenerateInstallmentsStatusReportUseCaseImpl();
 const repository = new InstallmentsRepositoryImpl(
-  new GenerateInstallmentsStatusReportUseCaseImpl()
+  dataSource,
+  generateInstallmentStatusReportUseCase
 );
 
 console.log(

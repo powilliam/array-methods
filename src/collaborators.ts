@@ -1,8 +1,12 @@
+import { CollaboratorsDataSourceImpl } from "./datasources/implementations/CollaboratorsDataSourceImpl";
 import { CollaboratorsRepositoryImpl } from "./repositories/implementations/CollaboratorsRepositoryImpl";
 import { GenerateCollaboratorsCountByOccupationReportUseCaseImpl } from "./usecases/implementations/GenerateCollaboratorsCountByOccupationReportUseCaseImpl";
 
+const dataSource = new CollaboratorsDataSourceImpl();
+const generateCollaboratorsCountByOccupationReportUseCaseImpl = new GenerateCollaboratorsCountByOccupationReportUseCaseImpl();
 const repository = new CollaboratorsRepositoryImpl(
-  new GenerateCollaboratorsCountByOccupationReportUseCaseImpl()
+  dataSource,
+  generateCollaboratorsCountByOccupationReportUseCaseImpl
 );
 
 console.log(
