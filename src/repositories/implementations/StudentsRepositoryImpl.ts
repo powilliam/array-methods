@@ -38,6 +38,21 @@ export class StudentsRepositoryImpl implements StudentsRepository {
       .sort((a, b) => (a < b ? 1 : -1));
   }
 
+  public getStudentAtFirstPosition(): Student {
+    const [student] = this.students;
+    return student;
+  }
+
+  public getStudentNameAtSecondPosition(): string {
+    const [, { name }] = this.students;
+    return name;
+  }
+
+  public getStudentAtThirdPosition(): Student {
+    const [, , student] = this.students;
+    return student;
+  }
+
   public doesAllStudentsHaveScholarship(): boolean {
     return this.getStudentsWithScholarship().length === this.students.length;
   }
