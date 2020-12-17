@@ -1,86 +1,107 @@
+import { StudentsDataSource } from "../../src/datasources/interfaces/StudentsDataSource";
 import { Student } from "../../src/entities/Student";
 import { StudentsRepositoryImpl } from "../../src/repositories/implementations/StudentsRepositoryImpl";
 
 describe("Exercices with Students Entity", () => {
-  const repository = new StudentsRepositoryImpl();
+  const dataSource: StudentsDataSource = {
+    getStudents: () => [
+      { id: 0, name: "William Porto", age: 20, scholarship: false },
+      { id: 1, name: "William Porto", age: 28, scholarship: true },
+      { id: 2, name: "William Porto", age: 25, scholarship: true },
+      { id: 3, name: "William Porto", age: 20, scholarship: false },
+    ],
+  };
+  const repository = new StudentsRepositoryImpl(dataSource);
 
   it("should be able to return all students name", () => {
-    const names = repository.getStudentsName();
-    expect(names).toContain("John Doe");
-    expect(names).toContain("Margoe Rose");
-    expect(names).toContain("Kayle");
+    const studentsNameFromRepository = repository.getStudentsName();
+    const studentsNameFromFakeDataSource = [
+      "William Porto",
+      "William Porto",
+      "William Porto",
+      "William Porto",
+    ];
+    expect(studentsNameFromRepository).toMatchObject(
+      studentsNameFromFakeDataSource
+    );
   });
 
   it("should be able to return all students with scholarship", () => {
-    const studentsWithScholarship = repository.getStudentsWithScholarship();
-    expect(studentsWithScholarship).toContainEqual<Student>({
-      id: 2,
-      name: "Margoe Rose",
-      age: 19,
-      scholarship: true,
-    });
-    expect(studentsWithScholarship).toContainEqual<Student>({
-      id: 3,
-      name: "Kayle",
-      age: 22,
-      scholarship: true,
-    });
+    const studentsWithScholarshipFromRepository = repository.getStudentsWithScholarship();
+    const studentsWithScholarshipFromFakeDataSource = [
+      { id: 1, name: "William Porto", age: 28, scholarship: true },
+      { id: 2, name: "William Porto", age: 25, scholarship: true },
+    ];
+    expect(studentsWithScholarshipFromRepository).toMatchObject(
+      studentsWithScholarshipFromFakeDataSource
+    );
   });
 
   it("should be able to return all students younger than tweenty three years old", () => {
-    const studentsYoungerThanThreeYearsOld = repository.getStudentsYoungerThanTwentyThreeYearsOld();
-    expect(studentsYoungerThanThreeYearsOld).toContainEqual<Student>({
-      id: 2,
-      name: "Margoe Rose",
-      age: 19,
-      scholarship: true,
-    });
-    expect(studentsYoungerThanThreeYearsOld).toContainEqual<Student>({
-      id: 3,
-      name: "Kayle",
-      age: 22,
-      scholarship: true,
-    });
+    const studentsYoungerThanThreeYearsOldFromRepository = repository.getStudentsYoungerThanTwentyThreeYearsOld();
+    const studentsYoungerThanThreeYearsOldFromFakeDataSource = [
+      { id: 0, name: "William Porto", age: 20, scholarship: false },
+      { id: 3, name: "William Porto", age: 20, scholarship: false },
+    ];
+    expect(studentsYoungerThanThreeYearsOldFromRepository).toMatchObject(
+      studentsYoungerThanThreeYearsOldFromFakeDataSource
+    );
   });
 
   it("should be able to return the students age sum", () => {
-    expect(repository.getStudentsAgeSum()).toBe(64);
+    const studentsAgeSumFromRepository = repository.getStudentsAgeSum();
+    const studentsAgeSumFromFakeDataSource = 20 + 20 + 25 + 28;
+    expect(studentsAgeSumFromRepository).toBe(studentsAgeSumFromFakeDataSource);
   });
 
   it("should be able to return students age in ascending order", () => {
-    expect(repository.getStudentsAgeInAscendingOrder()).toMatchObject([
-      19,
-      22,
-      23,
-    ]);
+    const studentsAgeInAscendingOrderFromRepository = repository.getStudentsAgeInAscendingOrder();
+    const studentsAgeInAscendingOrderFromFakeDataSource = [20, 20, 25, 28];
+    expect(studentsAgeInAscendingOrderFromRepository).toMatchObject(
+      studentsAgeInAscendingOrderFromFakeDataSource
+    );
   });
 
   it("should be able to return students age in descending order", () => {
-    expect(repository.getStudentsAgeInDescendingOrder()).toMatchObject([
-      23,
-      22,
-      19,
-    ]);
+    const studentsAgeInDescendingOrderFromRepository = repository.getStudentsAgeInDescendingOrder();
+    const studentsAgeInDescendingOrderFromFakeDataSource = [28, 25, 20, 20];
+    expect(studentsAgeInDescendingOrderFromRepository).toMatchObject(
+      studentsAgeInDescendingOrderFromFakeDataSource
+    );
   });
 
   it("should be able to return a student at first position", () => {
-    const student = repository.getStudentAtFirstPosition();
-    expect(student.id).toBe(1);
-  });
-
-  it("should be able to return a student at first position", () => {
-    const student = repository.getStudentAtFirstPosition();
-    expect(student.id).toBe(1);
+    const studentAtFirstPositionFromRepository = repository.getStudentAtFirstPosition();
+    const studentAtFirstPositionFromFakeDataSource = {
+      id: 0,
+      name: "William Porto",
+      age: 20,
+      scholarship: false,
+    };
+    expect(studentAtFirstPositionFromRepository).toMatchObject<Student>(
+      studentAtFirstPositionFromFakeDataSource
+    );
   });
 
   it("should be able to return the name of student at second position", () => {
-    const name = repository.getStudentNameAtSecondPosition();
-    expect(name).toBe("Margoe Rose");
+    const studentNameAtSecondPositionFromRepository = repository.getStudentNameAtSecondPosition();
+    const studentNameAtSecondPositionFromFakeDataSource = "William Porto";
+    expect(studentNameAtSecondPositionFromRepository).toMatch(
+      studentNameAtSecondPositionFromFakeDataSource
+    );
   });
 
   it("should be able to return the student at third position", () => {
-    const student = repository.getStudentAtThirdPosition();
-    expect(student.id).toBe(3);
+    const studentAtThirdPositionFromRepository = repository.getStudentAtThirdPosition();
+    const studentAtThirdPositionFromFakeDataSource = {
+      id: 2,
+      name: "William Porto",
+      age: 25,
+      scholarship: true,
+    };
+    expect(studentAtThirdPositionFromRepository).toMatchObject<Student>(
+      studentAtThirdPositionFromFakeDataSource
+    );
   });
 
   it("should be able to return if all students have scholarship", () => {
