@@ -27,6 +27,21 @@ console.log(
   )}`
 );
 console.log(
+  `Students at first position: ${JSON.stringify(
+    repository.getStudentAtFirstPosition()
+  )}`
+);
+console.log(
+  `Students name at second position: ${JSON.stringify(
+    repository.getStudentNameAtSecondPosition()
+  )}`
+);
+console.log(
+  `Students at third position: ${JSON.stringify(
+    repository.getStudentAtThirdPosition()
+  )}`
+);
+console.log(
   `Does all students have sholarship?: ${JSON.stringify(
     repository.doesAllStudentsHaveScholarship()
   )}`

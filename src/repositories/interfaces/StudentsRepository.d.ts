@@ -7,6 +7,9 @@ export interface StudentsRepository {
   getStudentsAgeSum: () => number;
   getStudentsAgeInAscendingOrder: () => number[];
   getStudentsAgeInDescendingOrder: () => number[];
+  getStudentAtFirstPosition: () => Student;
+  getStudentNameAtSecondPosition: () => string;
+  getStudentAtThirdPosition: () => Student;
   doesAllStudentsHaveScholarship: () => boolean;
   doesHaveOneStudentWithScholarshipAtLeast: () => boolean;
 }
