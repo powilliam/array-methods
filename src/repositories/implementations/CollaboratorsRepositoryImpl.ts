@@ -1,53 +1,51 @@
+import { CollaboratorsDataSource } from "../../datasources/interfaces/CollaboratorsDataSource";
 import { CountByOccupation } from "../../dto/CountByOccupation";
-import { Collaborator, Occupation } from "../../entities/Collaborator";
+import { Collaborator } from "../../entities/Collaborator";
 import { GenerateCollaboratorsCountByOccupationReportUseCase } from "../../usecases/interfaces/GenerateCollaboratorsCountByOccupationReportUseCase";
 import { sortCollaboratorsByOccupation } from "../../utils/sortCollaboratorsByOccupation";
 import { sortCollaboratorsWithOccupationAsTiebrakerCriteria } from "../../utils/sortCollaboratorsWithOccupationAsTiebrakerCriteria";
 import { CollaboratorsRepository } from "../interfaces/CollaboratorsRepository";
 
 export class CollaboratorsRepositoryImpl implements CollaboratorsRepository {
-  private readonly collaborators: Collaborator[] = [
-    { name: "Juca", age: 25, occupation: Occupation.FRONT_END },
-    { name: "Márcia", age: 23, occupation: Occupation.BACK_END },
-    { name: "Vitória", age: 28, occupation: Occupation.DESIGNER },
-    { name: "Fernando", age: 19, occupation: Occupation.INTERN },
-    { name: "Fabiane", age: 25, occupation: Occupation.BACK_END },
-    { name: "Jéssica", age: 23, occupation: Occupation.FRONT_END },
-  ];
-
   constructor(
+    private readonly collaboratorsDataSource: CollaboratorsDataSource,
     private readonly generateCollaboratorsCountByOccupationReportUseCase: GenerateCollaboratorsCountByOccupationReportUseCase
   ) {}
 
   public getCollaboratorsAgeSum(): number {
-    return this.collaborators
+    return this.collaboratorsDataSource
+      .getCollaborators()
       .map((collaborator) => collaborator.age)
       .reduce((sum, currentAge) => sum + currentAge);
   }
 
   public getCollaboratorsCountByOccupation(): CountByOccupation {
     return this.generateCollaboratorsCountByOccupationReportUseCase.execute(
-      this.collaborators
+      this.collaboratorsDataSource.getCollaborators()
     );
   }
 
   public getCollaboratorsOrderedByAgeInAscending(): Collaborator[] {
-    return this.collaborators.sort((a, b) => a.age - b.age);
+    return this.collaboratorsDataSource
+      .getCollaborators()
+      .sort((a, b) => a.age - b.age);
   }
 
   public getCollaboratorsOrderedByAgeInDescending(): Collaborator[] {
-    return this.collaborators.sort((a, b) => b.age - a.age);
+    return this.collaboratorsDataSource
+      .getCollaborators()
+      .sort((a, b) => b.age - a.age);
   }
 
   public getCollaboratorsOrderedByOccupation(): Collaborator[] {
-    return this.collaborators.sort((a, b) =>
-      sortCollaboratorsByOccupation(a, b)
-    );
+    return this.collaboratorsDataSource
+      .getCollaborators()
+      .sort((a, b) => sortCollaboratorsByOccupation(a, b));
   }
 
   public getCollaboratorsOrderedByAgeWithOccupationAsTiebrakerCriteria(): Collaborator[] {
-    return this.collaborators.sort((a, b) =>
-      sortCollaboratorsWithOccupationAsTiebrakerCriteria(a, b)
-    );
+    return this.collaboratorsDataSource
+      .getCollaborators()
+      .sort((a, b) => sortCollaboratorsWithOccupationAsTiebrakerCriteria(a, b));
   }
 }

@@ -1,6 +1,8 @@
+import { StudentsDataSourceImpl } from "./datasources/implementations/StudentsDataSourceImpl";
 import { StudentsRepositoryImpl } from "./repositories/implementations/StudentsRepositoryImpl";
 
-const repository = new StudentsRepositoryImpl();
+const dataSource = new StudentsDataSourceImpl();
+const repository = new StudentsRepositoryImpl(dataSource);
 
 console.log(`Students name: ${JSON.stringify(repository.getStudentsName())}`);
 console.log(
