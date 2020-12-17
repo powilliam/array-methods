@@ -63,6 +63,26 @@ describe("Exercices with Students Entity", () => {
     ]);
   });
 
+  it("should be able to return a student at first position", () => {
+    const student = repository.getStudentAtFirstPosition();
+    expect(student.id).toBe(1);
+  });
+
+  it("should be able to return a student at first position", () => {
+    const student = repository.getStudentAtFirstPosition();
+    expect(student.id).toBe(1);
+  });
+
+  it("should be able to return the name of student at second position", () => {
+    const name = repository.getStudentNameAtSecondPosition();
+    expect(name).toBe("Margoe Rose");
+  });
+
+  it("should be able to return the student at third position", () => {
+    const student = repository.getStudentAtThirdPosition();
+    expect(student.id).toBe(3);
+  });
+
   it("should be able to return if all students have scholarship", () => {
     expect(repository.doesAllStudentsHaveScholarship()).toBe(false);
   });
