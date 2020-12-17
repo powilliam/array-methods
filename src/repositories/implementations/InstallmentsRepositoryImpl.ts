@@ -1,5 +1,6 @@
 import { InstallmentsStatusReport } from "../../dto/InstallmentsStatusReport";
 import { Installment, InstallmentStatus } from "../../entities/Installment";
+import { GenerateInstallmentsStatusReportUseCase } from "../../usecases/interfaces/GenerateInstallmentsStatusReportUseCase";
 import { sortInstallmentsByPriceWithIdAsTiebrakerCriteriaInDescending } from "../../utils/sortInstallmentsByPriceWithIdAsTiebrakerCriteriaInDescending";
 import { InstallmentsRepository } from "../interfaces/InstallmentsRepository";
 
@@ -12,6 +13,10 @@ export class InstallmentsRepositoryImpl implements InstallmentsRepository {
     { id: 5, price: 133.93, status: InstallmentStatus.OPEN },
   ];
 
+  constructor(
+    private readonly generateInstallmentsStatusReportUseCase: GenerateInstallmentsStatusReportUseCase
+  ) {}
+
   public getInstallmentsTotalPrice(): number {
     return this.installments
       .map((installment) => installment.price)
@@ -19,17 +24,8 @@ export class InstallmentsRepositoryImpl implements InstallmentsRepository {
   }
 
   public getInstallmentsStatusReport(): InstallmentsStatusReport {
-    return this.installments.reduce(
-      (installmentsStatusReport, currentInstallment) => {
-        if (currentInstallment.status === InstallmentStatus.OPEN) {
-          installmentsStatusReport.total_open += currentInstallment.price;
-        }
-        if (currentInstallment.status === InstallmentStatus.PAID) {
-          installmentsStatusReport.total_paid += currentInstallment.price;
-        }
-        return installmentsStatusReport;
-      },
-      { total_open: 0, total_paid: 0 } as InstallmentsStatusReport
+    return this.generateInstallmentsStatusReportUseCase.execute(
+      this.installments
     );
   }
 

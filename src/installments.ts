@@ -1,6 +1,9 @@
 import { InstallmentsRepositoryImpl } from "./repositories/implementations/InstallmentsRepositoryImpl";
+import { GenerateInstallmentsStatusReportUseCaseImpl } from "./usecases/implementations/GenerateInstallmentsStatusReportUseCaseImpl";
 
-const repository = new InstallmentsRepositoryImpl();
+const repository = new InstallmentsRepositoryImpl(
+  new GenerateInstallmentsStatusReportUseCaseImpl()
+);
 
 console.log(
   `Installments total price: ${JSON.stringify(

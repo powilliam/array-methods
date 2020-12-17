@@ -1,8 +1,11 @@
 import { CountByOccupation } from "../../src/dto/CountByOccupation";
 import { CollaboratorsRepositoryImpl } from "../../src/repositories/implementations/CollaboratorsRepositoryImpl";
+import { GenerateCollaboratorsCountByOccupationReportUseCaseImpl } from "../../src/usecases/implementations/GenerateCollaboratorsCountByOccupationReportUseCaseImpl";
 
 describe("Exercices with Collaborators Entity", () => {
-  const repository = new CollaboratorsRepositoryImpl();
+  const repository = new CollaboratorsRepositoryImpl(
+    new GenerateCollaboratorsCountByOccupationReportUseCaseImpl()
+  );
 
   it("should be able to return the collaborators age sum", () => {
     expect(repository.getCollaboratorsAgeSum()).toBe(143);
